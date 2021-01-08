@@ -1,41 +1,94 @@
+import kotlinx.coroutines.async
 import kotlinx.css.*
 import react.*
 import react.dom.*
 import styled.css
 import styled.styledDiv
+import kotlin.browser.window
+import kotlinx.coroutines.*
 
-class App : RComponent<RProps, RState>() {
+suspend fun fetchVideo(id: Int): Video =
+    window.fetch("https://my-json-server.typicode.com/kotlin-hands-on/kotlinconf-json/videos/$id")
+        .await()
+        .json()
+        .await()
+        .unsafeCast<Video>()
+
+suspend fun fetchVideos(): List<Video> = coroutineScope {
+    (1..25).map { id ->
+        async {
+            fetchVideo(id)
+        }
+    }.awaitAll()
+}
+
+external interface AppState : RState {
+    var currentVideo: Video?
+    var unwatchedVideos: List<Video>
+    var watchedVideos: List<Video>
+}
+
+class App : RComponent<RProps, AppState>() {
+    override fun AppState.init() {
+        unwatchedVideos = listOf()
+        watchedVideos = listOf()
+
+        val mainScope = MainScope()
+        mainScope.launch {
+            val videos = fetchVideos()
+            setState {
+                unwatchedVideos = videos
+            }
+        }
+    }
+
     override fun RBuilder.render() {
         h1 {
-            +"Kotlin Browser"
+            +"Kotlin First Sample WebApp"
         }
         div {
             h3 {
                 +"Videos to watch"
             }
             videoList {
-                videos = unwatchedVideos
+                videos = state.unwatchedVideos
+                selectedVideo = state.currentVideo
+                onSelectVideo = { video ->
+                    setState {
+                        currentVideo = video
+                    }
+                }
             }
 
             h3 {
                 +"Videos watched"
             }
             videoList {
-                videos = watchedVideos
+                videos = state.watchedVideos
+                selectedVideo = state.currentVideo
+                onSelectVideo = { video ->
+                    setState {
+                        currentVideo = video
+                    }
+                }
             }
         }
-        styledDiv {
-            css {
-                position = Position.absolute
-                top = 10.px
-                right = 30.px
-            }
-            h3 {
-                +"John Doe: Building and breaking things"
-            }
-            img {
-                attrs {
-                    src = "https://via.placeholder.com/640x360.png?text=Video+Player+Placeholder"
+        state.currentVideo?.let { currentVideo ->
+            videoPlayer {
+                video = currentVideo
+                unwatchedVideo = currentVideo in state.unwatchedVideos
+                onWatchedButtonPressed = {
+                    if (video in state.unwatchedVideos) {
+                        setState {
+                            unwatchedVideos -= video
+                            watchedVideos += video
+                        }
+                    } else {
+                        setState {
+                            watchedVideos -= video
+                            unwatchedVideos += video
+                        }
+                    }
                 }
             }
         }
