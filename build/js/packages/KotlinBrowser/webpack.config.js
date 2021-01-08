@@ -13,11 +13,11 @@ let config = {
 
 // entry
 config.entry = {
-    main: ["/Users/leonard/IdeaProjects/KotlinBrowser/build/js/packages/KotlinBrowser/kotlin-dce-dev/KotlinBrowser.js"]
+    main: ["/Users/leonard/Udemy/KotlinBrowser/build/js/packages/KotlinBrowser/kotlin-dce-dev/KotlinBrowser.js"]
 };
 
 config.output = {
-    path: "/Users/leonard/IdeaProjects/KotlinBrowser/build/distributions",
+    path: "/Users/leonard/Udemy/KotlinBrowser/build/distributions",
     filename: (chunkData) => {
         return chunkData.chunk.name === 'main'
             ? "KotlinBrowser.js"
@@ -28,7 +28,7 @@ config.output = {
 };
 
 // resolve modules
-config.resolve.modules.unshift("/Users/leonard/IdeaProjects/KotlinBrowser/build/js/packages/KotlinBrowser/kotlin-dce-dev")
+config.resolve.modules.unshift("/Users/leonard/Udemy/KotlinBrowser/build/js/packages/KotlinBrowser/kotlin-dce-dev")
 
 // source maps
 config.module.rules.push({
@@ -50,7 +50,7 @@ config.devServer = {
   "open": true,
   "overlay": false,
   "contentBase": [
-    "/Users/leonard/IdeaProjects/KotlinBrowser/build/processedResources/js/main"
+    "/Users/leonard/Udemy/KotlinBrowser/build/processedResources/js/main"
   ]
 };
 
@@ -94,7 +94,7 @@ config.devServer = {
     const util = require('util');
     const fs = require('fs');
     const evaluatedConfig = util.inspect(config, {showHidden: false, depth: null, compact: false});
-    fs.writeFile("/Users/leonard/IdeaProjects/KotlinBrowser/build/reports/webpack/KotlinBrowser/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
+    fs.writeFile("/Users/leonard/Udemy/KotlinBrowser/build/reports/webpack/KotlinBrowser/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
 })(config);
 
 module.exports = config
