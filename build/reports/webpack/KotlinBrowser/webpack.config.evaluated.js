@@ -2,7 +2,7 @@
   mode: 'development',
   resolve: {
     modules: [
-      '/Users/leonard/IdeaProjects/KotlinBrowser/build/js/packages/KotlinBrowser/kotlin-dce-dev',
+      '/Users/leonard/Udemy/KotlinBrowser/build/js/packages/KotlinBrowser/kotlin-dce-dev',
       'node_modules'
     ]
   },
@@ -35,11 +35,11 @@
   },
   entry: {
     main: [
-      '/Users/leonard/IdeaProjects/KotlinBrowser/build/js/packages/KotlinBrowser/kotlin-dce-dev/KotlinBrowser.js'
+      '/Users/leonard/Udemy/KotlinBrowser/build/js/packages/KotlinBrowser/kotlin-dce-dev/KotlinBrowser.js'
     ]
   },
   output: {
-    path: '/Users/leonard/IdeaProjects/KotlinBrowser/build/distributions',
+    path: '/Users/leonard/Udemy/KotlinBrowser/build/distributions',
     filename: [Function: filename],
     library: 'KotlinBrowser',
     libraryTarget: 'umd'
@@ -59,7 +59,7 @@
     open: true,
     overlay: false,
     contentBase: [
-      '/Users/leonard/IdeaProjects/KotlinBrowser/build/processedResources/js/main'
+      '/Users/leonard/Udemy/KotlinBrowser/build/processedResources/js/main'
     ]
   }
 }
